@@ -33,3 +33,25 @@ select * from Project;
 
 delete from Project where id =1;
 
+Declare 
+    sid Student.id%type;
+    m1 Student.marks1%type;
+    m2 Student.marks2%type;
+    m3 Student.marks3%type;
+    m4 Student.marks4%type;
+    m5 Student.marks5%type;
+    tot student.total%type;
+    Cursor c_student is Select id,marks1,marks2,marks3,marks4,marks5 from Student;
+Begin 
+    OPEN c_student; 
+   LOOP 
+   FETCH c_student into sid, m1,m2,m3,m4,m5; 
+      EXIT WHEN c_student%notfound; 
+      tot:= StudentPackage.calculateTotal(sid,m1,m2,m3,m4,m5);
+      StudentPackage.calculateAverage(sid,tot);
+   END LOOP; 
+   CLOSE c_student;
+end;
+
+
+
